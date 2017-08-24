@@ -846,7 +846,7 @@ table.CodeRay td.code>pre{padding:0}
     succeed on a subsequent attempt. Errors that are susceptible to this kind
     of treatment are transient in nature. For example a remote call to a web
     service or RMI service that fails because of a network glitch or a
-    <code>DeadLockLoserException</code> in a database update may
+    <code>DeadlockLoserDataAccessException</code> in a database update may
     resolve themselves after a short wait. To automate the retry of such
     operations Spring Batch has the <code>RetryOperations</code>
     strategy. The <code>RetryOperations</code> interface looks like
@@ -1271,7 +1271,7 @@ template.execute(<span class="keyword">new</span> RetryCallback&lt;Foo&gt;() {
 <div id="footer">
 <div id="footer-text">
 Version 4.0.0.BUILD-SNAPSHOT<br>
-Last updated 2017-06-02 17:13:50 EDT
+Last updated 2017-07-31 11:06:07 EDT
 </div>
 </div>
 </body>

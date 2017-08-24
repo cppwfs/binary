@@ -699,6 +699,8 @@ b.conum * { color: inherit !important; }
 
 .admonitionblock > table td.content { border-left: none; }
 
+.js-download-widget-selector{display:inline;}.navbar{margin-bottom:0;}.item-slider-widget{display:inline-block;margin-left:15px;}.item-slider-widget .item--slider{height:32px;position:absolute;width:40px;border-radius:2px;margin-top:-4px;z-index:800;background:#68605a;background:-moz-linear-gradient(top,#68605a 0%,#34302d 100%,#020202 100%);background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#68605a),color-stop(100%,#34302d),color-stop(100%,#020202));background:-webkit-linear-gradient(top,#68605a 0%,#34302d 100%,#020202 100%);background:-o-linear-gradient(top,#68605a 0%,#34302d 100%,#020202 100%);background:-ms-linear-gradient(top,#68605a 0%,#34302d 100%,#020202 100%);background:linear-gradient(to bottom,#68605a 0%,#34302d 100%,#020202 100%);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#68605a',endColorstr='#020202',GradientType=0);cursor:pointer;transition:all 0.25s;-webkit-transition:all 0.25s;-moz-webkit-transition:all 0.25s;-ms--webkit-transition:all 0.25s;-o-webkit-transition:all 0.25s;}.item-slider-widget .item-slider--container{background-color:white;border:1px solid #999;padding:0 3px;}.item-slider-widget .item-slider--container .item{display:inline-block;color:#c3c3c3;font-family:"Montserrat",sans-serif;font-size:12px;line-height:12px;text-transform:uppercase;padding:7px 6px 5px;cursor:pointer;transition:color 0.25s;-webkit-transition:color 0.25s;-moz-webkit-transition:color 0.25s;-ms--webkit-transition:color 0.25s;-o-webkit-transition:color 0.25s;}.item-slider-widget .item-slider--container .item:hover{color:black;}.item-slider-widget .item-slider--container .item.js-active{z-index:801;position:relative;color:#f1f1f1;}
+
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
 <style>
@@ -815,7 +817,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#whatsNewJava">2.1. Java 8 Requirement</a></li>
 <li><a href="#whatsNewDependencies">2.2. Dependencies re-baseline</a></li>
-<li><a href="#whatsNewBuilders">2.3. Provide builders for the ItemReaders and ItemWriters</a></li>
+<li><a href="#whatsNewBuilders">2.3. Provide builders for the ItemReaders, ItemProcessors, and ItemWriters</a></li>
 </ul>
 </li>
 <li><a href="#domainLanguageOfBatch">3. The Domain Language of Batch</a>
@@ -1047,6 +1049,63 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </li>
+<li><a href="#itemReaderAndWriterImplementations">6.14. Item Reader and Writer Implementations</a>
+<ul class="sectlevel3">
+<li><a href="#decorators">6.14.1. Decorators</a>
+<ul class="sectlevel4">
+<li><a href="#synchronizedItemStreamReader">SynchronizedItemStreamReader</a></li>
+<li><a href="#singleItemPeekableItemReader">SingleItemPeekableItemReader</a></li>
+<li><a href="#multiResourceItemWriter">MultiResourceItemWriter</a></li>
+</ul>
+</li>
+<li><a href="#messagingReadersAndWriters">6.14.2. Messaging Readers And Writers</a>
+<ul class="sectlevel4">
+<li><a href="#amqpItemReader">AmqpItemReader</a></li>
+<li><a href="#amqpItemWriter">AmqpItemWriter</a></li>
+<li><a href="#jmsItemReader">JmsItemReader</a></li>
+<li><a href="#jmsItemWriter">JmsItemWriter</a></li>
+</ul>
+</li>
+<li><a href="#databaseReaders">6.14.3. Database Readers</a>
+<ul class="sectlevel4">
+<li><a href="#Neo4jItemReader">Neo4jItemReader</a></li>
+<li><a href="#mongoItemReader">MongoItemReader</a></li>
+<li><a href="#hibernateCursorItemReader">HibernateCursorItemReader</a></li>
+<li><a href="#hibernatePagingItemReader">HibernatePagingItemReader</a></li>
+<li><a href="#repositoryItemReader">RepositoryItemReader</a></li>
+</ul>
+</li>
+<li><a href="#databaseWriters">6.14.4. Database Writers</a>
+<ul class="sectlevel4">
+<li><a href="#neo4jItemWriter">Neo4jItemWriter</a></li>
+<li><a href="#mongoItemWriter">MongoItemWriter</a></li>
+<li><a href="#repositoryItemWriter">RepositoryItemWriter</a></li>
+<li><a href="#hibernateItemWriter">HibernateItemWriter</a></li>
+<li><a href="#jdbcBatchItemWriter">JdbcBatchItemWriter</a></li>
+<li><a href="#jpaItemWriter">JpaItemWriter</a></li>
+</ul>
+</li>
+<li><a href="#specializedReaders">6.14.5. Specialized Readers</a>
+<ul class="sectlevel4">
+<li><a href="#ldifReader">LdifReader</a></li>
+<li><a href="#mappingLdifReader">MappingLdifReader</a></li>
+</ul>
+</li>
+<li><a href="#specializedWriters">6.14.6. Specialized Writers</a>
+<ul class="sectlevel4">
+<li><a href="#classifierCompositeItemWriter">ClassifierCompositeItemWriter</a></li>
+<li><a href="#simpleMailMessageItemWriter">SimpleMailMessageItemWriter</a></li>
+<li><a href="#gemfireItemWriter">GemfireItemWriter</a></li>
+</ul>
+</li>
+<li><a href="#specializedProcessors">6.14.7. Specialized Processors</a>
+<ul class="sectlevel4">
+<li><a href="#scriptItemProcessor">ScriptItemProcessor</a></li>
+<li><a href="#classifierCompositeItemProcessor">ClassifierCompositeItemProcessor</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#scalability">7. Scaling and Parallel Processing</a>
@@ -1240,7 +1299,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>Lucas Ward, Dave Syer, Thomas Risberg, Robert Kasanicky, Dan Garrette, Wayne Lund, Michael Minella, Chris Schaefer, Gunnar Hillert, Glenn Renfro</p>
 </div>
 <div class="paragraph">
-<p>Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 201, 2016, 2017 Pivotal, Inc. All Rights Reserved.</p>
+<p>Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017 Pivotal, Inc. All Rights Reserved.</p>
 </div>
 <div class="paragraph">
 <p>Copies of this document may be made for your own use and for
@@ -1253,6 +1312,48 @@ Notice, whether distributed in print or electronically.</p>
 <div class="sect1">
 <h2 id="spring-batch-intro"><a class="anchor" href="#spring-batch-intro"></a>1. Spring Batch Introduction</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>
+<div class="toggleWidget">
+	<script src="./jsfiles/jquery.js"></script>
+	<script src="./jsfiles/underscore.js"></script>
+	<script src="./jsfiles/backbone.js"></script>
+	<script src="./jsfiles/js.cookie.js"></script>
+	<script src="./jsfiles/projectDocumentationWidget.js"></script>
+	<script src="./jsfiles/application.js"></script>
+	<div code-widget-controls="" style="display: inline-block">
+	<div class="item-slider-widget js-item-slider--wrapper">
+			<div class="item-slider--container">
+				<div class="item--slider js-item--slider"
+					 style="width: 57px; margin-left: 0.01555px;"></div>
+				<div class="item js-item" data-snippet-type="java">
+					Java
+				</div>
+				<div class="item js-item" data-snippet-type="xml">
+					XML
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="code-widget--body">
+		<div class="js-code-maven-widget"></div>
+	</div>
+	<script type="text/html" id="code-widget-controls-template">
+		<div class="item-slider-widget js-item-slider--wrapper">
+			<div class="item-slider--container">
+				<div class="item--slider js-item--slider"></div>
+				<div class="item js-item java_snip_item" data-snippet-type='java'>
+					Java
+				</div>
+				<div class="item js-item xml_snip_item" data-snippet-type='xml'>
+					XML
+				</div>
+			</div>
+		</div>
+	</script>
+</div>
+</p>
+</div>
 <div class="paragraph">
 <p>Many applications within the enterprise domain require bulk processing
   to perform business operations in mission critical environments. These
@@ -1847,7 +1948,9 @@ completely separate from the application, built using Maven.</p>
 <p>Spring Batch has historically followed Spring Framework&#8217;s baselines for both
 		java version as well as third party dependencies.  With Spring Batch 4, the Spring
 		Framework version is being upgraded to Spring Framework 5.  As such, the java
-		version requirement for Spring Batch is also increasing to Java 8.</p>
+		version requirement for Spring Batch is also increasing to Java 8.  This should be
+		mainly an internal change in that most of the framework has supported things like
+		functional interfaces and lambdas since they were released.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1859,13 +1962,99 @@ completely separate from the application, built using Maven.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="whatsNewBuilders"><a class="anchor" href="#whatsNewBuilders"></a>2.3. Provide builders for the ItemReaders and ItemWriters</h3>
+<h3 id="whatsNewBuilders"><a class="anchor" href="#whatsNewBuilders"></a>2.3. Provide builders for the ItemReaders, ItemProcessors, and ItemWriters</h3>
 <div class="paragraph">
 <p>Spring Batch 4 is providing a collection of builders for all of the ItemReaders
 		and ItemWriters that come with the framework.  As of this release, builders for the
-		<code>FlatFileItemReader</code>, <code>FlatFileItemWriter</code>, <code>JdbcCursorItemReader</code>, and
-		<code>JdbcBatchItemWriter</code> are available.  More information can be found in the javadoc
-		for Spring Batch.</p>
+		following components (as well as some related utility builders) are available:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>AmqpItemReader</code> - <code>AmqpItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>ClassifierCompositeItemProcessor</code> - <code>ClassifierCompositeItemProcessorBuilder</code></p>
+</li>
+<li>
+<p><code>ClassifierCompositeItemWriter</code> - <code>ClassifierCompositeItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>CompositeItemWriter</code> - <code>CompositeItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>FlatFileItemReader</code> - <code>FlatFileItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>FlatFileItemWriter</code> - <code>FlatFileItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>GemfireItemWriter</code> - <code>GemfireItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>HibernateCursorItemReader</code> - <code>HibernateCursorItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>HibernateItemWriter</code> - <code>HibernateItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>HibernatePagingItemReader</code> - <code>HibernatePagingItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>JdbcBatchItemWriter</code> - <code>JdbcBatchItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>JdbcCursorItemReader</code> - <code>JdbcCursorItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>JdbcPagingItemReader</code> - <code>JdbcCursorItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>JmsItemReader</code> - <code>JmsItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>JmsItemWriter</code> - <code>JmsItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>JpaPagingItemReader</code> - <code>JpaPagingItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>MongoItemReader</code> - <code>MongoItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>MultiResourceItemReader</code> - <code>MultiResourceItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>MultiResourceItemWriter</code> - <code>MultiResourceItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>Neo4jItemWriter</code> - <code>Neo4jItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>RepositoryItemReader</code> - <code>RepositoryItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>RepositoryItemWriter</code> - <code>RepositoryItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>ScriptItemProcessor</code> - <code>ScriptItemProcessorBuilder</code></p>
+</li>
+<li>
+<p><code>SimpleMailMessageItemWriter</code> - <code>SimpleMailMessageItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>SingleItemPeekableItemReader</code> - <code>SingleItemPeekableItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>StaxEventItemReader</code> - <code>StaxEventItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>StaxEventItemWriter</code> - <code>StaxEventItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>SynchronizedItemStreamReader</code> - <code>SynchronizedItemStreamReaderBuilder</code></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -1873,6 +2062,48 @@ completely separate from the application, built using Maven.</p>
 <div class="sect1">
 <h2 id="domainLanguageOfBatch"><a class="anchor" href="#domainLanguageOfBatch"></a>3. The Domain Language of Batch</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>
+<div class="toggleWidget">
+	<script src="./jsfiles/jquery.js"></script>
+	<script src="./jsfiles/underscore.js"></script>
+	<script src="./jsfiles/backbone.js"></script>
+	<script src="./jsfiles/js.cookie.js"></script>
+	<script src="./jsfiles/projectDocumentationWidget.js"></script>
+	<script src="./jsfiles/application.js"></script>
+	<div code-widget-controls="" style="display: inline-block">
+	<div class="item-slider-widget js-item-slider--wrapper">
+			<div class="item-slider--container">
+				<div class="item--slider js-item--slider"
+					 style="width: 57px; margin-left: 0.01555px;"></div>
+				<div class="item js-item" data-snippet-type="java">
+					Java
+				</div>
+				<div class="item js-item" data-snippet-type="xml">
+					XML
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="code-widget--body">
+		<div class="js-code-maven-widget"></div>
+	</div>
+	<script type="text/html" id="code-widget-controls-template">
+		<div class="item-slider-widget js-item-slider--wrapper">
+			<div class="item-slider--container">
+				<div class="item--slider js-item--slider"></div>
+				<div class="item js-item java_snip_item" data-snippet-type='java'>
+					Java
+				</div>
+				<div class="item js-item xml_snip_item" data-snippet-type='xml'>
+					XML
+				</div>
+			</div>
+		</div>
+	</script>
+</div>
+</p>
+</div>
 <div class="paragraph">
 <p>To any experienced batch architect, the overall concepts of batch
 processing used in Spring Batch should be familiar and comfortable. There
@@ -1960,15 +2191,33 @@ The job configuration contains:</p>
 </li>
 </ul>
 </div>
-<div class="paragraph">
+<div class="paragraph javaContent">
 <p>A default simple implementation of the Job
 interface is provided by Spring Batch in the form of the
 <code>SimpleJob</code> class which creates some standard
-functionality on top of <code>Job</code>, however the batch
-namespace abstracts away the need to instantiate it directly. Instead, the
-<code>&lt;job&gt;</code> tag can be used:</p>
+functionality on top of <code>Job</code>.  When using java based configuration, a collection of
+builders are made available for the instantiation of a <code>Job</code>:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock javaContent">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Bean</span>
+<span class="directive">public</span> Job footballJob() {
+    <span class="keyword">return</span> <span class="local-variable">this</span>.jobBuilderFactory.get(<span class="string"><span class="delimiter">&quot;</span><span class="content">footballJob</span><span class="delimiter">&quot;</span></span>)
+                     .start(playerLoad())
+                     .next(gameLoad())
+                     .next(playerSummarization())
+                     .end()
+                     .build();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph xmlContent">
+<p>A default simple implementation of the <code>Job</code> interface is provided by Spring Batch in the
+form of the <code>SimpleJob</code> class which creates some standard functionality on top of <code>Job</code>,
+however the batch namespace abstracts away the need to instantiate it directly.
+Instead, the <code>&lt;job&gt;</code> tag can be used:</p>
+</div>
+<div class="listingblock xmlContent">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;job</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">footballJob</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
     <span class="tag">&lt;step</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">playerload</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">next</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">gameLoad</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
@@ -2751,12 +3000,20 @@ Job is first launched, a
 <code>JobExecution</code> is obtained from the repository, and
 during the course of execution <code>StepExecution</code> and
 <code>JobExecution</code> implementations are persisted by
-passing them to the repository:</p>
+passing them to the repository.</p>
 </div>
-<div class="listingblock">
+<div class="paragraph xmlContent">
+<p>The batch namespace provides support for configuring a <code>JobRepository</code> instance simply via
+the <code>&lt;job-repository&gt;</code> tag:</p>
+</div>
+<div class="listingblock xmlContent">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;job-repository</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">jobRepository</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
 </div>
+</div>
+<div class="paragraph javaContent">
+<p>When using java configuration, <code>@EnableBatchProcessing</code> annotation provides a
+<code>JobRepository</code> as one of the components automatically configured out of the box.</p>
 </div>
 </div>
 <div class="sect2">
@@ -2819,7 +3076,7 @@ not be written out. More details about the <code>ItemProcessor</code> interface 
 found in <a href="#readersAndWriters">Readers And Writers</a>.</p>
 </div>
 </div>
-<div class="sect2">
+<div class="sect2 xmlContent">
 <h3 id="batch-namespace"><a class="anchor" href="#batch-namespace"></a>3.9. Batch Namespace</h3>
 <div class="paragraph">
 <p>Many of the domain concepts listed above need to be configured in a
@@ -2828,7 +3085,7 @@ implementations of the interfaces above that can be used in a standard
 bean definition, a namespace has been provided for ease of
 configuration:</p>
 </div>
-<div class="listingblock">
+<div class="listingblock xmlContent">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;beans:beans</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/batch</span><span class="delimiter">&quot;</span></span>
 <span class="attribute-name">xmlns:beans</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans</span><span class="delimiter">&quot;</span></span>
@@ -2837,20 +3094,20 @@ configuration:</p>
    <span class="content">http://www.springframework.org/schema/beans</span>
    <span class="content">http://www.springframework.org/schema/beans/spring-beans.xsd</span>
    <span class="content">http://www.springframework.org/schema/batch</span>
-   <span class="content">http://www.springframework.org/schema/batch/spring-batch-2.2.xsd</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+   <span class="content">http://www.springframework.org/schema/batch/spring-batch.xsd</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
 
 <span class="tag">&lt;job</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">ioSampleJob</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-<span class="tag">&lt;step</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">step1</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-    <span class="tag">&lt;tasklet&gt;</span>
-        <span class="tag">&lt;chunk</span> <span class="attribute-name">reader</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">itemReader</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">writer</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">itemWriter</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">commit-interval</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-    <span class="tag">&lt;/tasklet&gt;</span>
-<span class="tag">&lt;/step&gt;</span>
+    <span class="tag">&lt;step</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">step1</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+        <span class="tag">&lt;tasklet&gt;</span>
+            <span class="tag">&lt;chunk</span> <span class="attribute-name">reader</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">itemReader</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">writer</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">itemWriter</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">commit-interval</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+        <span class="tag">&lt;/tasklet&gt;</span>
+    <span class="tag">&lt;/step&gt;</span>
 <span class="tag">&lt;/job&gt;</span>
 
 <span class="tag">&lt;/beans:beans&gt;</span></code></pre>
 </div>
 </div>
-<div class="paragraph">
+<div class="paragraph xmlContent">
 <p>As long as the batch namespace has been declared, any of its
 elements can be used. More information on configuring a
 Job can be found in <a href="#configureJob">Configuring and Running a Job</a>. More information on configuring a <code>Step</code> can be
@@ -3117,7 +3374,7 @@ job:</p>
 <p>Spring 3 brought the ability to configure applications via java instead
   	of XML.  As of Spring Batch 2.2.0, batch jobs can be configured using the same
   	java config.  There are two components for the java based configuration:
-  	the <code>@EnableBatchConfiguration</code> annotation and two builders.</p>
+  	the <code>@EnableBatchProcessing</code> annotation and two builders.</p>
 </div>
 <div class="paragraph">
 <p>The <code>@EnableBatchProcessing</code> works similarly to the other
@@ -9030,6 +9287,292 @@ xml.</p>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="itemReaderAndWriterImplementations"><a class="anchor" href="#itemReaderAndWriterImplementations"></a>6.14. Item Reader and Writer Implementations</h3>
+<div class="paragraph">
+<p>In this section we will introduce you to Reader and Writers that have not
+already been discussed in the previous sections.</p>
+</div>
+<div class="sect3">
+<h4 id="decorators"><a class="anchor" href="#decorators"></a>6.14.1. Decorators</h4>
+<div class="paragraph">
+<p>In some cases a user needs a specialized behavior to be appended to a
+pre-existing ItemReader.   Spring Batch offers some out of the box decorators
+that can add additional behavior to to your <code>ItemReaders</code> and <code>ItemWriters</code>.</p>
+</div>
+<div class="sect4">
+<h5 id="synchronizedItemStreamReader"><a class="anchor" href="#synchronizedItemStreamReader"></a>SynchronizedItemStreamReader</h5>
+<div class="paragraph">
+<p>When using a <code>ItemReader</code> that is not thread safe, Spring Batch offers the
+<code>SynchronizedItemStreamReader</code> decorator that can be used to make the <code>ItemReader</code>
+ thread safe. Spring Batch provides a
+<code>SynchronizedItemStreamReaderBuilder</code> to construct an instance of the
+<code>SynchronizedItemStreamReader</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="singleItemPeekableItemReader"><a class="anchor" href="#singleItemPeekableItemReader"></a>SingleItemPeekableItemReader</h5>
+<div class="paragraph">
+<p>A decorator that adds a peek method to an <code>ItemReader</code>.
+This peek method allow the user to peek one item ahead.  Repeated calls to the
+peek will return the same item, and this will be the next item returned from read method.
+Spring Batch provides a <code>SingleItemPeekableItemReaderBuilder</code> to construct an
+instance of the <code>SingleItemPeekableItemReader</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+SingleItemPeekableItemReader&#8217;s peek method is not thread-safe:
+it wouldn&#8217;t be possible to honour the peek in multiple threads because only one
+of the threads that peeked would get that item in the next call to read.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect4">
+<h5 id="multiResourceItemWriter"><a class="anchor" href="#multiResourceItemWriter"></a>MultiResourceItemWriter</h5>
+<div class="paragraph">
+<p>The MultiResourceItemWriter wraps a <code>ResourceAwareItemWriterItemStream</code> and
+creates a new output resource when the count of items written in current
+resource exceeds the <code>itemCountLimitPerResource</code>.
+Spring Batch provides a <code>MultiResourceItemWriterBuilder</code> to construct an
+instance of the <code>MultiResourceItemWriter</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="messagingReadersAndWriters"><a class="anchor" href="#messagingReadersAndWriters"></a>6.14.2. Messaging Readers And Writers</h4>
+<div class="paragraph">
+<p>Spring Batch offers readers and writers to some commonly used messaging systems.</p>
+</div>
+<div class="sect4">
+<h5 id="amqpItemReader"><a class="anchor" href="#amqpItemReader"></a>AmqpItemReader</h5>
+<div class="paragraph">
+<p>The <code>AmqpItemReader</code> is an <code>ItemReader</code> that uses an <code>AmqpTemplate</code> to receive and/or
+convert messages from an exchange. Spring Batch provides a <code>AmqpItemReaderBuilder</code>
+to construct an instance of the <code>AmqpItemReader</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="amqpItemWriter"><a class="anchor" href="#amqpItemWriter"></a>AmqpItemWriter</h5>
+<div class="paragraph">
+<p>The <code>AmqpItemWriter</code> is an <code>ItemWriter</code> that uses an <code>AmqpTemplate</code> to
+send messages to an AMQP exchange. Messages will be sent to the nameless exchange if
+not specified on the provided <code>AmqpTemplate</code>.  Spring Batch provides a <code>AmqpItemWriterBuilder</code>
+to construct an instance of the <code>AmqpItemWriter</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="jmsItemReader"><a class="anchor" href="#jmsItemReader"></a>JmsItemReader</h5>
+<div class="paragraph">
+<p>The <code>JmsItemReader</code> is an <code>ItemReader</code> for JMS that uses an <code>JmsTemplate</code>. The template
+should have a default destination, which will be used to provide items
+for the <code>read()</code> method.
+Spring Batch provides a <code>JmsItemReaderBuilder</code> to construct an instance of the <code>JmsItemReader</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="jmsItemWriter"><a class="anchor" href="#jmsItemWriter"></a>JmsItemWriter</h5>
+<div class="paragraph">
+<p>The <code>JmsItemWriter</code> is an <code>ItemWriter</code> for JMS that uses an <code>JmsTemplate</code>. The template
+should have a default destination, which will be used to send items in <code>write(List)</code>.
+Spring Batch provides a <code>JmsItemWriterBuilder</code> to construct an instance of the <code>JmsItemWriter</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="databaseReaders"><a class="anchor" href="#databaseReaders"></a>6.14.3. Database Readers</h4>
+<div class="paragraph">
+<p>Here are the database readers offered by Spring Batch out of the box.</p>
+</div>
+<div class="sect4">
+<h5 id="Neo4jItemReader"><a class="anchor" href="#Neo4jItemReader"></a>Neo4jItemReader</h5>
+<div class="paragraph">
+<p>The <code>Neo4jItemReader</code> is an <code>ItemReader</code> that reads objects from the graph database Neo4j via a paging technique.
+Spring Batch provides a <code>Neo4jItemReaderBuilder</code> to construct an instance of the <code>Neo4jItemReader</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="mongoItemReader"><a class="anchor" href="#mongoItemReader"></a>MongoItemReader</h5>
+<div class="paragraph">
+<p>The <code>MongoItemReader</code> is an <code>ItemReader</code> that reads documents from MongoDB via a paging technique.
+Spring Batch provides a <code>MongoItemReaderBuilder</code> to construct an instance of the <code>MongoItemReader</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="hibernateCursorItemReader"><a class="anchor" href="#hibernateCursorItemReader"></a>HibernateCursorItemReader</h5>
+<div class="paragraph">
+<p>The <code>HibernateCursorItemReader</code> is an <code>ItemStreamReader</code> for reading database
+records built on top of Hibernate. It executes the HQL query, then when initialized,
+iterates over the result set as the <code>read()</code> method is called, returning an object
+corresponding to the current row.
+Spring Batch provides a <code>HibernateCursorItemReaderBuilder</code> to construct an instance of the <code>HibernateCursorItemReader</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="hibernatePagingItemReader"><a class="anchor" href="#hibernatePagingItemReader"></a>HibernatePagingItemReader</h5>
+<div class="paragraph">
+<p>The <code>HibernatePagingItemReader</code> is an <code>ItemReader</code> for reading database records
+built on top of Hibernate and reading only up to a fixed number of items at a time.
+Spring Batch provides a <code>HibernatePagingItemReaderBuilder</code> to construct an instance of the <code>HibernatePagingItemReader</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="repositoryItemReader"><a class="anchor" href="#repositoryItemReader"></a>RepositoryItemReader</h5>
+<div class="paragraph">
+<p>The <code>RepositoryItemReader</code> is an <code>ItemReader</code> that reads records utilizing
+a <code>PagingAndSortingRepository</code>.
+Spring Batch provides a <code>RepositoryItemReaderBuilder</code> to construct an instance
+of the <code>RepositoryItemReader</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="databaseWriters"><a class="anchor" href="#databaseWriters"></a>6.14.4. Database Writers</h4>
+<div class="paragraph">
+<p>Here are the database writers offered by Spring Batch out of the box.</p>
+</div>
+<div class="sect4">
+<h5 id="neo4jItemWriter"><a class="anchor" href="#neo4jItemWriter"></a>Neo4jItemWriter</h5>
+<div class="paragraph">
+<p>The <code>Neo4jItemWriter</code> is an <code>ItemWriter</code> implementation that writes to a Neo4j database.
+Spring Batch provides a <code>Neo4jItemWriterBuilder</code> to construct an instance
+of the <code>Neo4jItemWriter</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="mongoItemWriter"><a class="anchor" href="#mongoItemWriter"></a>MongoItemWriter</h5>
+<div class="paragraph">
+<p>The <code>MongoItemWriter</code> is an <code>ItemWriter</code> implementation that writes to a
+MongoDB store using an implementation of Spring Data&#8217;s <code>MongoOperations</code>.
+Spring Batch provides a <code>MongoItemWriterBuilder</code> to construct an instance
+of the <code>MongoItemWriter</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="repositoryItemWriter"><a class="anchor" href="#repositoryItemWriter"></a>RepositoryItemWriter</h5>
+<div class="paragraph">
+<p>The <code>RepositoryItemWriter</code> is an <code>ItemWriter</code> wrapper for a <code>CrudRepository</code> from Spring Data.
+Spring Batch provides a <code>RepositoryItemWriterBuilder</code> to construct an instance
+of the <code>RepositoryItemWriter</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="hibernateItemWriter"><a class="anchor" href="#hibernateItemWriter"></a>HibernateItemWriter</h5>
+<div class="paragraph">
+<p>The <code>HibernateItemWriter</code> is an <code>ItemWriter</code> that uses a Hibernate session to save or update entities
+that are not part of the current Hibernate session.
+Spring Batch provides a <code>HibernateItemWriterBuilder</code> to construct an instance
+of the <code>HibernateItemWriter</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="jdbcBatchItemWriter"><a class="anchor" href="#jdbcBatchItemWriter"></a>JdbcBatchItemWriter</h5>
+<div class="paragraph">
+<p>The <code>JdbcBatchItemWriter</code> is an <code>ItemWriter</code> that uses the batching features from
+<code>NamedParameterJdbcTemplate</code> to execute a batch of statements for all items
+provided.
+Spring Batch provides a <code>JdbcBatchItemWriterBuilder</code> to construct an instance
+of the <code>JdbcBatchItemWriter</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="jpaItemWriter"><a class="anchor" href="#jpaItemWriter"></a>JpaItemWriter</h5>
+<div class="paragraph">
+<p>The <code>JpaItemWriter</code> is an <code>ItemWriter</code> that is using a JPA EntityManagerFactory
+to merge any Entities that aren&#8217;t part of the persistence context.
+Spring Batch provides a <code>JpaItemWriterBuilder</code> to construct an instance
+of the <code>JpaItemWriter</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="specializedReaders"><a class="anchor" href="#specializedReaders"></a>6.14.5. Specialized Readers</h4>
+<div class="paragraph">
+<p>Here are some specialized readers offered by Spring Batch out of the box.</p>
+</div>
+<div class="sect4">
+<h5 id="ldifReader"><a class="anchor" href="#ldifReader"></a>LdifReader</h5>
+<div class="paragraph">
+<p>The <code>LdifReader</code> reads LDIF (LDAP Data Interchange Format) records from a <code>Resource</code>, parses them
+and returns a <code>LdapAttribute</code> object for each <code>read</code> executed.
+Spring Batch provides a <code>LdifReaderBuilder</code> to construct an instance of the <code>LdifReader</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="mappingLdifReader"><a class="anchor" href="#mappingLdifReader"></a>MappingLdifReader</h5>
+<div class="paragraph">
+<p>The <code>MappingLdifReader</code> reads LDIF (LDAP Data Interchange Format) records from a <code>Resource</code>, parses them
+then maps each LDIF record to a POJO (Plain Old Java Object). Each read returns a POJO.
+Spring Batch provides a <code>MappingLdifReaderBuilder</code> to construct an instance of the <code>MappingLdifReader</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="specializedWriters"><a class="anchor" href="#specializedWriters"></a>6.14.6. Specialized Writers</h4>
+<div class="paragraph">
+<p>Here are some specialized writers offered by Spring Batch out of the box.</p>
+</div>
+<div class="sect4">
+<h5 id="classifierCompositeItemWriter"><a class="anchor" href="#classifierCompositeItemWriter"></a>ClassifierCompositeItemWriter</h5>
+<div class="paragraph">
+<p>The <code>ClassifierCompositeItemWriter</code> calls one of a collection of ItemWriters for
+each item, based on a router pattern implemented through the provided
+<code>Classifier</code>.  The implementation is thread-safe if all delegates are thread-safe.
+Spring Batch provides a <code>ClassifierCompositeItemWriterBuilder</code> to construct an
+instance of the <code>ClassifierCompositeItemWriter</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="simpleMailMessageItemWriter"><a class="anchor" href="#simpleMailMessageItemWriter"></a>SimpleMailMessageItemWriter</h5>
+<div class="paragraph">
+<p>The SimpleMailMessageItemWriter is an <code>ItemWriter</code> that can send mail messages.
+It delegates the actual sending of messages to an instance of <code>MailSender</code>.
+Spring Batch provides a <code>SimpleMailMessageItemWriterBuilder</code> to construct an
+instance of the <code>SimpleMailMessageItemWriter</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="gemfireItemWriter"><a class="anchor" href="#gemfireItemWriter"></a>GemfireItemWriter</h5>
+<div class="paragraph">
+<p>The GemfireItemWriter is an <code>ItemWriter</code> that uses an <code>GemfireTemplate</code> that
+stores items in GemFire as key/value pairs.
+Spring Batch provides a <code>GemfireItemWriterBuilder</code> to construct an
+instance of the <code>GemfireItemWriter</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="specializedProcessors"><a class="anchor" href="#specializedProcessors"></a>6.14.7. Specialized Processors</h4>
+<div class="paragraph">
+<p>Here are some specialized processors offered by Spring Batch out of the box.</p>
+</div>
+<div class="sect4">
+<h5 id="scriptItemProcessor"><a class="anchor" href="#scriptItemProcessor"></a>ScriptItemProcessor</h5>
+<div class="paragraph">
+<p>The <code>ScriptItemProcessor</code> is an <code>ItemProcessor</code> that passes the current item to
+process to the provided script and the result of the script is returned by the processor.
+Spring Batch provides a <code>ScriptItemProcessorBuilder</code> to construct an
+instance of the <code>ScriptItemProcessor</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="classifierCompositeItemProcessor"><a class="anchor" href="#classifierCompositeItemProcessor"></a>ClassifierCompositeItemProcessor</h5>
+<div class="paragraph">
+<p>The <code>ClassifierCompositeItemProcessor</code> is an <code>ItemProcessor</code> that calls one of a collection
+of ItemProcessors, based on a router pattern implemented through the provided
+<code>Classifier</code>.
+Spring Batch provides a <code>ClassifierCompositeItemProcessorBuilder</code> to construct an
+instance of the <code>ClassifierCompositeItemProcessor</code>.</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -9405,13 +9948,13 @@ xml.</p>
 </div>
 <div class="paragraph">
 <p>An optional interface
-      <code>PartitioneNameProvider</code> can be used to
+      <code>PartitionNameProvider</code> can be used to
       provide the partition names separately from the partitions
       themselves.  If a Partitioner implements
       this interface then on a restart only the names will be queried.
       If partitioning is expensive this can be a useful optimisation.
       Obviously the names provided by the
-      <code>PartitioneNameProvider</code> must match those
+      <code>PartitionNameProvider</code> must match those
       provided by the <code>Partitioner</code>.</p>
 </div>
 </div>
@@ -9528,13 +10071,13 @@ xml.</p>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">RepeatTemplate template = <span class="keyword">new</span> RepeatTemplate();
 
-template.setCompletionPolicy(<span class="keyword">new</span> FixedChunkSizeCompletionPolicy(<span class="integer">2</span>));
+template.setCompletionPolicy(<span class="keyword">new</span> SimpleCompletionPolicy(<span class="integer">2</span>));
 
 template.iterate(<span class="keyword">new</span> RepeatCallback() {
 
-    <span class="directive">public</span> ExitStatus doInIteration(RepeatContext context) {
+    <span class="directive">public</span> RepeatStatus doInIteration(RepeatContext context) {
         <span class="comment">// Do stuff in batch...</span>
-        <span class="keyword">return</span> ExitStatus.CONTINUABLE;
+        <span class="keyword">return</span> RepeatStatus.CONTINUABLE;
     }
 
 });</code></pre>
@@ -9543,7 +10086,7 @@ template.iterate(<span class="keyword">new</span> RepeatCallback() {
 <div class="paragraph">
 <p>In the example we return <code>RepeatStatus.CONTINUABLE</code> to
     show that there is more work to do. The callback can also return
-    <code>ExitStatus.FINISHED</code> if it wants to signal to the caller that
+    <code>RepeatStatus.FINISHED</code> if it wants to signal to the caller that
     there is no more work to do. Some iterations can be terminated by
     considerations intrinsic to the work being done in the callback, others
     are effectively infinite loops as far as the callback is concerned and the
@@ -9577,7 +10120,7 @@ template.iterate(<span class="keyword">new</span> RepeatCallback() {
       possible <code>RepeatStatus</code> values:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 17. ExitStatus Properties</caption>
+<caption class="title">Table 17. RepeatStatus Properties</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -9774,12 +10317,12 @@ template.iterate(<span class="keyword">new</span> RepeatCallback() {
 </div>
 <div class="paragraph">
 <p>If the intercepted method returns <code>void</code> then the
-    interceptor always returns <code>ExitStatus.CONTINUABLE</code> (so there is a danger of
+    interceptor always returns <code>RepeatStatus.CONTINUABLE</code> (so there is a danger of
     an infinite loop if the <code>CompletionPolicy</code> does not
     have a finite end point). Otherwise it returns
-    <code>ExitStatus.CONTINUABLE</code> until the return value from the
+    <code>RepeatStatus.CONTINUABLE</code> until the return value from the
     intercepted method is null, at which point it returns
-    <code>ExitStatus.FINISHED</code>. So the business logic inside the target
+    <code>RepeatStatus.FINISHED</code>. So the business logic inside the target
     method can signal that there is no more work to do by returning
     <code>null</code>, or by throwing an exception that is re-thrown by the
     <code>ExceptionHandler</code> in the provided
@@ -9814,7 +10357,7 @@ template.iterate(<span class="keyword">new</span> RepeatCallback() {
     succeed on a subsequent attempt. Errors that are susceptible to this kind
     of treatment are transient in nature. For example a remote call to a web
     service or RMI service that fails because of a network glitch or a
-    <code>DeadLockLoserException</code> in a database update may
+    <code>DeadlockLoserDataAccessException</code> in a database update may
     resolve themselves after a short wait. To automate the retry of such
     operations Spring Batch has the <code>RetryOperations</code>
     strategy. The <code>RetryOperations</code> interface looks like
@@ -10323,10 +10866,10 @@ Indicates which XML files contain the ApplicationContext.</p>
                                       i, <span class="string"><span class="delimiter">&quot;</span><span class="content">customer</span><span class="delimiter">&quot;</span></span> + i);
         }
 
-        JobExecution jobExecution = jobLauncherTestUtils.launchJob().getStatus();
+        JobExecution jobExecution = jobLauncherTestUtils.launchJob();
 
 
-        Assert.assertEquals(<span class="string"><span class="delimiter">&quot;</span><span class="content">COMPLETED</span><span class="delimiter">&quot;</span></span>, jobExecution.getExitStatus());
+        Assert.assertEquals(<span class="string"><span class="delimiter">&quot;</span><span class="content">COMPLETED</span><span class="delimiter">&quot;</span></span>, jobExecution.getExitStatus().getExitCode());
     }
 }</code></pre>
 </div>
@@ -14151,7 +14694,7 @@ JTA, but it is the only one that works consistently.</p>
 <div id="footer">
 <div id="footer-text">
 Version 4.0.0.BUILD-SNAPSHOT<br>
-Last updated 2017-06-16 10:41:20 EDT
+Last updated 2017-07-31 11:06:07 EDT
 </div>
 </div>
 </body>

@@ -804,7 +804,7 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#whatsNewJava">1.1. Java 8 Requirement</a></li>
 <li><a href="#whatsNewDependencies">1.2. Dependencies re-baseline</a></li>
-<li><a href="#whatsNewBuilders">1.3. Provide builders for the ItemReaders and ItemWriters</a></li>
+<li><a href="#whatsNewBuilders">1.3. Provide builders for the ItemReaders, ItemProcessors, and ItemWriters</a></li>
 </ul>
 </li>
 </ul>
@@ -836,7 +836,9 @@ table.CodeRay td.code>pre{padding:0}
 <p>Spring Batch has historically followed Spring Framework&#8217;s baselines for both
 		java version as well as third party dependencies.  With Spring Batch 4, the Spring
 		Framework version is being upgraded to Spring Framework 5.  As such, the java
-		version requirement for Spring Batch is also increasing to Java 8.</p>
+		version requirement for Spring Batch is also increasing to Java 8.  This should be
+		mainly an internal change in that most of the framework has supported things like
+		functional interfaces and lambdas since they were released.</p>
 </div>
 </div>
 <div class="sect2">
@@ -848,13 +850,99 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="whatsNewBuilders"><a class="anchor" href="#whatsNewBuilders"></a>1.3. Provide builders for the ItemReaders and ItemWriters</h3>
+<h3 id="whatsNewBuilders"><a class="anchor" href="#whatsNewBuilders"></a>1.3. Provide builders for the ItemReaders, ItemProcessors, and ItemWriters</h3>
 <div class="paragraph">
 <p>Spring Batch 4 is providing a collection of builders for all of the ItemReaders
 		and ItemWriters that come with the framework.  As of this release, builders for the
-		<code>FlatFileItemReader</code>, <code>FlatFileItemWriter</code>, <code>JdbcCursorItemReader</code>, and
-		<code>JdbcBatchItemWriter</code> are available.  More information can be found in the javadoc
-		for Spring Batch.</p>
+		following components (as well as some related utility builders) are available:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>AmqpItemReader</code> - <code>AmqpItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>ClassifierCompositeItemProcessor</code> - <code>ClassifierCompositeItemProcessorBuilder</code></p>
+</li>
+<li>
+<p><code>ClassifierCompositeItemWriter</code> - <code>ClassifierCompositeItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>CompositeItemWriter</code> - <code>CompositeItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>FlatFileItemReader</code> - <code>FlatFileItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>FlatFileItemWriter</code> - <code>FlatFileItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>GemfireItemWriter</code> - <code>GemfireItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>HibernateCursorItemReader</code> - <code>HibernateCursorItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>HibernateItemWriter</code> - <code>HibernateItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>HibernatePagingItemReader</code> - <code>HibernatePagingItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>JdbcBatchItemWriter</code> - <code>JdbcBatchItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>JdbcCursorItemReader</code> - <code>JdbcCursorItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>JdbcPagingItemReader</code> - <code>JdbcCursorItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>JmsItemReader</code> - <code>JmsItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>JmsItemWriter</code> - <code>JmsItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>JpaPagingItemReader</code> - <code>JpaPagingItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>MongoItemReader</code> - <code>MongoItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>MultiResourceItemReader</code> - <code>MultiResourceItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>MultiResourceItemWriter</code> - <code>MultiResourceItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>Neo4jItemWriter</code> - <code>Neo4jItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>RepositoryItemReader</code> - <code>RepositoryItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>RepositoryItemWriter</code> - <code>RepositoryItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>ScriptItemProcessor</code> - <code>ScriptItemProcessorBuilder</code></p>
+</li>
+<li>
+<p><code>SimpleMailMessageItemWriter</code> - <code>SimpleMailMessageItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>SingleItemPeekableItemReader</code> - <code>SingleItemPeekableItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>StaxEventItemReader</code> - <code>StaxEventItemReaderBuilder</code></p>
+</li>
+<li>
+<p><code>StaxEventItemWriter</code> - <code>StaxEventItemWriterBuilder</code></p>
+</li>
+<li>
+<p><code>SynchronizedItemStreamReader</code> - <code>SynchronizedItemStreamReaderBuilder</code></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -863,7 +951,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="footer">
 <div id="footer-text">
 Version 4.0.0.BUILD-SNAPSHOT<br>
-Last updated 2017-06-02 17:13:50 EDT
+Last updated 2017-07-31 11:06:07 EDT
 </div>
 </div>
 </body>

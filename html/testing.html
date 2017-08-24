@@ -902,10 +902,10 @@ Indicates which XML files contain the ApplicationContext.</p>
                                       i, <span class="string"><span class="delimiter">&quot;</span><span class="content">customer</span><span class="delimiter">&quot;</span></span> + i);
         }
 
-        JobExecution jobExecution = jobLauncherTestUtils.launchJob().getStatus();
+        JobExecution jobExecution = jobLauncherTestUtils.launchJob();
 
 
-        Assert.assertEquals(<span class="string"><span class="delimiter">&quot;</span><span class="content">COMPLETED</span><span class="delimiter">&quot;</span></span>, jobExecution.getExitStatus());
+        Assert.assertEquals(<span class="string"><span class="delimiter">&quot;</span><span class="content">COMPLETED</span><span class="delimiter">&quot;</span></span>, jobExecution.getExitStatus().getExitCode());
     }
 }</code></pre>
 </div>
@@ -1129,7 +1129,7 @@ AssertFile.assertFileEquals(<span class="keyword">new</span> FileSystemResource(
 <div id="footer">
 <div id="footer-text">
 Version 4.0.0.BUILD-SNAPSHOT<br>
-Last updated 2017-06-02 17:13:50 EDT
+Last updated 2017-07-31 11:06:07 EDT
 </div>
 </div>
 </body>

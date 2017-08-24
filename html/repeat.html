@@ -877,13 +877,13 @@ table.CodeRay td.code>pre{padding:0}
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java">RepeatTemplate template = <span class="keyword">new</span> RepeatTemplate();
 
-template.setCompletionPolicy(<span class="keyword">new</span> FixedChunkSizeCompletionPolicy(<span class="integer">2</span>));
+template.setCompletionPolicy(<span class="keyword">new</span> SimpleCompletionPolicy(<span class="integer">2</span>));
 
 template.iterate(<span class="keyword">new</span> RepeatCallback() {
 
-    <span class="directive">public</span> ExitStatus doInIteration(RepeatContext context) {
+    <span class="directive">public</span> RepeatStatus doInIteration(RepeatContext context) {
         <span class="comment">// Do stuff in batch...</span>
-        <span class="keyword">return</span> ExitStatus.CONTINUABLE;
+        <span class="keyword">return</span> RepeatStatus.CONTINUABLE;
     }
 
 });</code></pre>
@@ -892,7 +892,7 @@ template.iterate(<span class="keyword">new</span> RepeatCallback() {
 <div class="paragraph">
 <p>In the example we return <code>RepeatStatus.CONTINUABLE</code> to
     show that there is more work to do. The callback can also return
-    <code>ExitStatus.FINISHED</code> if it wants to signal to the caller that
+    <code>RepeatStatus.FINISHED</code> if it wants to signal to the caller that
     there is no more work to do. Some iterations can be terminated by
     considerations intrinsic to the work being done in the callback, others
     are effectively infinite loops as far as the callback is concerned and the
@@ -926,7 +926,7 @@ template.iterate(<span class="keyword">new</span> RepeatCallback() {
       possible <code>RepeatStatus</code> values:</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 1. ExitStatus Properties</caption>
+<caption class="title">Table 1. RepeatStatus Properties</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
@@ -1123,12 +1123,12 @@ template.iterate(<span class="keyword">new</span> RepeatCallback() {
 </div>
 <div class="paragraph">
 <p>If the intercepted method returns <code>void</code> then the
-    interceptor always returns <code>ExitStatus.CONTINUABLE</code> (so there is a danger of
+    interceptor always returns <code>RepeatStatus.CONTINUABLE</code> (so there is a danger of
     an infinite loop if the <code>CompletionPolicy</code> does not
     have a finite end point). Otherwise it returns
-    <code>ExitStatus.CONTINUABLE</code> until the return value from the
+    <code>RepeatStatus.CONTINUABLE</code> until the return value from the
     intercepted method is null, at which point it returns
-    <code>ExitStatus.FINISHED</code>. So the business logic inside the target
+    <code>RepeatStatus.FINISHED</code>. So the business logic inside the target
     method can signal that there is no more work to do by returning
     <code>null</code>, or by throwing an exception that is re-thrown by the
     <code>ExceptionHandler</code> in the provided
@@ -1141,7 +1141,7 @@ template.iterate(<span class="keyword">new</span> RepeatCallback() {
 <div id="footer">
 <div id="footer-text">
 Version 4.0.0.BUILD-SNAPSHOT<br>
-Last updated 2017-06-02 17:13:50 EDT
+Last updated 2017-07-31 11:06:07 EDT
 </div>
 </div>
 </body>
